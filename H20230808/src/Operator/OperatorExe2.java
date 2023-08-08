@@ -29,7 +29,6 @@ public class OperatorExe2 {
 				} else {
 					balance = sum;
 					System.out.println("입금이 완료되었습니다.");
-				//	break;
 				}
 				
 			} else if( menu == 2 ) {
@@ -45,12 +44,10 @@ public class OperatorExe2 {
 				} else {
 					balance = sum;
 					System.out.println("출금이 완료되었습니다.");
-				//	break;
 				}
 			} else if( menu == 3 ) {
 				//코드작성
 				System.out.println("현재 잔액은 " + balance + " 입니다.");
-				break;
 			} else if( menu == 4 ) {
 				//코드작성
 				System.out.println("종료합니다.");
