@@ -13,5 +13,4 @@ public class Hello {
 
 // 소스 코드가 실행되는것이 아니라 빌드된 클래스 파일이 실행됨
 // class 파일이 삭제 되었을 시 clean 실행 후 자동 빌드되어 class 파일이 생성됨
-// https://github.com/eunkyoji/java_project.git - GIT Hub
-// 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 -- GIT Hub 토큰
+
