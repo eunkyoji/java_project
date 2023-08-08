@@ -1,7 +1,7 @@
 package co.yedam;
 
 public class Hello {
-	public static void main(String [] args) {	//함수안에 속한 함수를 메소드라 한다.	
+	public static void main(String [] args) {	//함수안에 속한 함수를 메소드라 한다.
 		System.out.println("안녕하세요...");
 		System.out.println("remote에 반영하기 전");
 		System.out.println("원격에 작업을 반영함");
