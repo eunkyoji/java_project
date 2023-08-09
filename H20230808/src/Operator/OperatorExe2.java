@@ -26,6 +26,8 @@ public class OperatorExe2 {
 				sum = balance + inNum;
 				if( sum > 100000 ) {
 					System.out.println("잔액이 10만원을 초과 합니다.");
+				} else if ( inNum < 0 ) {
+					System.out.println("입금이 불가한 금액입니다.");
 				} else {
 					balance = sum;
 					System.out.println("입금이 완료되었습니다.");
@@ -41,6 +43,8 @@ public class OperatorExe2 {
 				sum = balance - outNum;
 				if( sum < 0 ) {
 					System.out.println("잔액이 부족합니다.");
+				} else if ( outNum < 0 ) {
+					System.out.println("출금이 불가한 금액입니다.");
 				} else {
 					balance = sum;
 					System.out.println("출금이 완료되었습니다.");
