@@ -61,5 +61,4 @@ public class Board {
 		return "Board [no=" + no + ", title=" + title + ", name=" + name + ", date=" + date + "]"
 				+ "\n content \n" + content;
 	}
-	
 }

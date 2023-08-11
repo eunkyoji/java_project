@@ -66,7 +66,6 @@ public class BoardApp {
 				count++;
 			}
 		}
-
 	}
 	
 	private void detail() {

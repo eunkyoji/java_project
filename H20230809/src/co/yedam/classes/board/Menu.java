@@ -7,4 +7,5 @@ public class Menu {
 	static final int EDIT 	= 4;
 	static final int DEL 	= 5;
 	static final int EXIT 	= 9;
+	
 }
