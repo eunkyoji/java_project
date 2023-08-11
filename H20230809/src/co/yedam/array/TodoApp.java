@@ -19,7 +19,7 @@ public class TodoApp {
 		
 		while(run) {
 			System.out.println("------------------------------------------------------");
-			System.out.println("1.등록(할일 날짜) | 2.완료 | 3.조회 | 4.미완료 조회 | 5.종료");
+			System.out.println("1.등록(번호 할일 날짜) | 2.완료 | 3.조회 | 4.미완료 조회 | 5.종료");
 			System.out.println("------------------------------------------------------");
 			System.out.print("선택 >> ");
 			
@@ -56,20 +56,18 @@ public class TodoApp {
 				case 2 :
 					System.out.println("완료시킬 업무 번호를 입력하세요.");
 					String[] no = scn.nextLine().split(" ");
-					if( no.length == 1 ) {
-						for( int i = 0; i < todo.length; i++ ) {
-							if( todo[i] != null && todo[i].no == Integer.parseInt(no[0]) ) {
-								if( todo[i].done == false ) {
-									todo[i].done = true;
-									System.out.println("정상 처리 되었습니다.");
-									break;
-								} else {
-									System.out.println("이미 처리된 업무 번호입니다.");
-									break;
-								}
-							}
-						}
-					} else {
+					
+//					if( no.length == 1 ) {
+//						for( int i = 0; i < todo.length; i++ ) {
+//							if( todo[i] != null && todo[i].no == Integer.parseInt(no[0]) ) {
+//								if( todo[i].done == false ) {
+//									todo[i].done = true;
+//									System.out.println("정상 처리 되었습니다.");
+//									break;
+//								}
+//							}
+//						}
+//					} else {
 						for( int i = 0; i < no.length; i++ ) {
 							for( int j = 0; j < todo.length; j++ ) {
 								if( todo[i] != null && todo[i].no == Integer.parseInt(no[j]) ) {
@@ -80,7 +78,7 @@ public class TodoApp {
 								}
 							}
 						}
-					}
+//					}
 					break;
 				case 3 :
 //					System.out.println("조회 할 업무 번호를 입력하세요!!");
@@ -94,13 +92,40 @@ public class TodoApp {
 //							break;
 //						}
 //					}
+					
 					System.out.println("업무 등록일을 입력하세요.");
 					String date = scn.nextLine();
 					int count = 0;
+//					for( int i = 0; i < todo.length; i++ ) {
+//						if( todo[i] != null && todo[i].dueDate.equals(date) ) {
+//							System.out.printf("%d. 업무명 : %s, 등록일 : %s, 처리현황 : %s", 
+//									todo[i].no, todo[i].todo, todo[i].dueDate, todo[i].done == true ? "완료" : "미완료");
+//							System.out.println();
+//							count++;
+//						}
+//					}
+//					
 					for( int i = 0; i < todo.length; i++ ) {
-						if( todo[i] != null && todo[i].dueDate.equals(date) ) {
+						if( todo[i] != null ) {
+							count++;
+						}
+					}
+					
+					
+					for( int i = 0; i < count-1; i++ ) {
+						Todo tmp = new Todo();
+						if( todo[i].no < todo[i + 1].no ) {
+							tmp = todo[i];
+							todo[i+1] = todo[i];
+							todo[i+1] = tmp;
+						}
+					}
+					
+					count = 0;
+					for( int j = 0; j < todo.length; j++ ) {
+						if( todo[j] != null && todo[j].dueDate.equals(date)) {
 							System.out.printf("%d. 업무명 : %s, 등록일 : %s, 처리현황 : %s", 
-									todo[i].no, todo[i].todo, todo[i].dueDate, todo[i].done == true ? "완료" : "미완료");
+									todo[j].no, todo[j].todo, todo[j].dueDate, todo[j].done == true ? "완료" : "미완료");
 							System.out.println();
 							count++;
 						}
@@ -109,6 +134,7 @@ public class TodoApp {
 					if( count < 1 ) {
 						System.out.println("해당 날짜에 등록된 업무가 없습니다.");
 					}
+					
 					break;
 				case 4:
 					count = 0;
