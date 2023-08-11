@@ -110,11 +110,17 @@ public class BoardApp {
 					System.out.print("변경할 제목을 입력하세요.");
 					String title = scn.nextLine();
 					boards[i].setTitle(title);
+					
+					System.out.println("변경된 제목입니다.");
+					System.out.println(boards[i].getTitle());
 					count++;
 					break;
 				} else {
 					System.out.print("내용을 입력하세요.");
 					String content = scn.nextLine();
+					
+					System.out.println("변경된 내용입니다.");
+					System.out.println(boards[i].getContent());
 					boards[i].setContent(content);
 					count++;
 					break;
