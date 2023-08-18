@@ -1,5 +1,6 @@
 package co.yedam.Friend;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class FriendApp {
@@ -16,7 +17,15 @@ public class FriendApp {
 			System.out.println("1.추가 2.조회 3.수정 4.삭제 5.종료");
 			System.out.print("선택 >> ");
 			
-			menu = Integer.parseInt(scn.nextLine()); // 3 엔터
+			try {
+				//menu = Integer.parseInt(scn.nextLine()); // 3 엔터
+				menu = scn.nextInt(); // 3 엔터
+			} catch(Exception e) {
+				System.out.println("메뉴를 다시 선택하세요.");
+				continue;
+			} finally {
+				scn.nextLine();
+			}
 			scn.nextLine();
 			
 			switch(menu) {
@@ -52,10 +61,25 @@ public class FriendApp {
 	
 	//등록
 	private void addFriend() {
-		System.out.println("1.학교 2.회사 3.기타");
-		System.out.print("선택 >> ");
-		int subMenu = Integer.parseInt(scn.nextLine());
-		scn.nextLine();
+		int subMenu = -1;
+		while(true) {
+			System.out.println("1.학교 2.회사 3.기타");
+			System.out.print("선택 >> ");
+			
+			try {
+				subMenu = Integer.parseInt(scn.nextLine());
+				if( subMenu < 1 || subMenu > 3 ) {
+					System.out.println("1 2 3 중에 선택하세요.");
+					continue;
+				}
+				break;
+			} catch (Exception e) {
+				System.out.println("메뉴를 다시 선택하세요.");
+				continue;
+			}  finally {
+				scn.nextLine();
+			}
+		}
 		
 		Friend friend = null;
 		
