@@ -20,18 +20,64 @@ public class BoardServiceJdbc implements BoardService{
 	String query;
 	
 	
+	void disconn() {
+		try {
+			if( rs != null ) {
+				rs.close();
+			}
+			if( psmt != null ) {
+				psmt.close();
+			}
+			if( conn != null ) {
+				conn.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public boolean add(Board board) {
+		conn = Dao.conn();
+//		query= "INSERT INTO board(brd_no, brd_title, brd_content, brd_writer)"
+//				+ "VALUES((SELECT NVL(MAX(brd_no), 0) + 1 FROM board), '" + board.getBrdTitle() + "', '" + board.getBrdContent() + "', '" + board.getBrdWriter() + "'";
+		query= "INSERT INTO board(brd_no, brd_title, brd_content, brd_writer)"
+				+ "VALUES((SELECT NVL(MAX(brd_no), 0) + 1 FROM board), ?, ?, ?)";
+		try {
+			psmt = conn.prepareStatement(query);
+			psmt.setString(1, board.getBrdTitle());
+			psmt.setString(2, board.getBrdContent());
+			psmt.setString(3, board.getBrdWriter());
+			int r = psmt.executeUpdate();
+			if( r == 1 ) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		
 		return false;
 	}
 
 	@Override
 	public List<Board> list(int page) {
 		List<Board> list = new ArrayList<Board>();
+		
 		conn = Dao.conn();
-		query = "SELECT * FROM board";
+		query = "SELECT * "
+				+ "  FROM "
+				+ "    (SELECT rownum rn, a.* "
+				+ "    FROM "
+				+ "        (SELECT * FROM board "
+				+ "          ORDER BY brd_no) a "
+				+ "    WHERE rownum <= (? * 5) ) b "
+				+ " WHERE b.rn > (? - 1)* 5"; 
 		try {
 			psmt = conn.prepareStatement(query);
+			psmt.setInt(1, page);
+			psmt.setInt(2, page);
 			rs = psmt.executeQuery();
 			while(rs.next()) {
 				//rs -> list
@@ -47,27 +93,49 @@ public class BoardServiceJdbc implements BoardService{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			disconn();
 		}
 		return list;
 	}
 
 	@Override
 	public int getTotal() {
-		return 0;
+		conn = Dao.conn();
+		query = "SELECT count(*) cnt FROM board";
+		int count = 0;
+		try {
+			psmt = conn.prepareStatement(query);
+			rs = psmt.executeQuery();
+			if( rs.next() ) {
+				count = rs.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		
+		return count;
 	}
 
 	@Override
 	public boolean modify(Board board) {
-		query = "UPDATE board SET brd_content = '" + board.getBrdContent() + "' WHERE brd_no = " + board.getBrdNo();
+		//query = "UPDATE board SET brd_content = '" + board.getBrdContent() + "' WHERE brd_no = " + board.getBrdNo();
+		query = "UPDATE board SET brd_content = ? WHERE brd_no = ?";
 		conn = Dao.conn();
 		try {
 			psmt = conn.prepareStatement(query);
+			psmt.setString(1, board.getBrdContent());
+			psmt.setInt(2, board.getBrdNo());
 			int r = psmt.executeUpdate();
 			if( r == 1 ) {
 				return true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			disconn();
 		}
 		return false;
 	}
@@ -85,6 +153,8 @@ public class BoardServiceJdbc implements BoardService{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			disconn();
 		}
 		return false;
 	}
@@ -110,6 +180,8 @@ public class BoardServiceJdbc implements BoardService{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			disconn();
 		}
 		return null;
 	}
@@ -117,6 +189,24 @@ public class BoardServiceJdbc implements BoardService{
 	@Override
 	public void save() {
 		
+	}
+	
+	@Override
+	public String getResponseUser(int brdNo) {
+		conn = Dao.conn();
+		query= "SELECT brd_writer FROM board WHERE brd_no = " + brdNo;
+		try {
+			psmt = conn.prepareStatement(query);
+			rs = psmt.executeQuery();	// select
+			if( rs.next() ) {
+				return rs.getString("brd_writer");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		return null;
 	}
 	
 }

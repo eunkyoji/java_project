@@ -81,7 +81,7 @@ public class Board implements Serializable{
 	}
 
 	public String listInfo() {
-		return brdNo + "\t" + brdTitle + "\t\t" + brdWriter; 
+		return brdNo + "\t" + brdTitle + "\t\t\t" + brdWriter; 
 	}
 	
 	public String showInfo() {
