@@ -14,8 +14,8 @@ public class SendMail {
 	final String ENCODING = "UTF-8";
 	final String PORT = "465";
 	final String SMTPHOST = "smtp.naver.com";
-	final String FROM = "jsj0226@naver.com";
-	final String PASS = "orange35@#32)!";
+	final String FROM = "111";	//이메일주소
+	final String PASS = "111";	// 비밀번호
 
 	public Session setting() {
 		Properties props = new Properties();
