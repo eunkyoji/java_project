@@ -86,6 +86,7 @@ public class BoardApp {
 			}
 		}
 		System.out.println("end of prog");
+		scn.close();
 	}
 	
 	private String printString(String msg) {
