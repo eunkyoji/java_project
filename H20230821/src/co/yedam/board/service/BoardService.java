@@ -1,6 +1,8 @@
-package co.yedam.board;
+package co.yedam.board.service;
 
 import java.util.List;
+
+import co.yedam.board.vo.Board;
 
 // 파일저장, DB저장
 public interface BoardService {

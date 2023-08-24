@@ -1,6 +1,8 @@
-package co.yedam.board;
+package co.yedam.board.service;
 
 import java.util.List;
+
+import co.yedam.board.vo.Reply;
 
 public interface ReplyService {
 	// 등록(추가)

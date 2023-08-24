@@ -1,4 +1,4 @@
-package co.yedam.board;
+package co.yedam.board.service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import co.yedam.board.common.Dao;
+import co.yedam.board.vo.Board;
 
 public class BoardServiceJdbc implements BoardService{
 

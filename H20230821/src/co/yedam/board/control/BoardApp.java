@@ -1,7 +1,17 @@
-package co.yedam.board;
+package co.yedam.board.control;
 
 import java.util.List;
 import java.util.Scanner;
+
+import co.yedam.board.service.BoardService;
+import co.yedam.board.service.BoardServiceImpl;
+import co.yedam.board.service.ReplyService;
+import co.yedam.board.service.ReplyServiceImpl;
+import co.yedam.board.service.UserService;
+import co.yedam.board.service.UserServiceImpl;
+import co.yedam.board.vo.Board;
+import co.yedam.board.vo.Reply;
+import co.yedam.board.vo.User;
 
 public class BoardApp {
 	Scanner scn = new Scanner(System.in);
@@ -170,100 +180,100 @@ public class BoardApp {
 			System.out.println("-----------------------------------------");
 		}
 		
-		reply(Integer.parseInt(brdNo));
+		//reply(Integer.parseInt(brdNo));
 	}
 	
-	void printReply(int brdNo) {
-		int page = 1;
-		while(true) {
-			List<Reply> list = rservice.list(page, brdNo);
-			if( list != null ) {
-				for( Reply b : list ) {
-					System.out.println(b.toString());
-				}
-			}	
-			// 4 > 1page, 9 > 2page, 19 > 4page
-			int totalCnt = rservice.getTotal();
-			int lastPage = (int) Math.ceil(totalCnt / 5.0);
-			String p = "";
-			for( int i = 1; i <= lastPage; i++ ) {
-				//System.out.printf("%3d", i);
-				if( page == i ) {
-					p += "[" + i + "]" + "  ";
-				} else {
-					p += i + "  ";
-				}
-			}
-			System.out.print(p);
-			System.out.println();
-			System.out.print("조회할 페이지를 입력(exit : 0) >>");
-			
-			page = scn.nextInt();
-			
-			if( page == 0) {
-				break;
-			}
-			
-		}
-	}
-	
-	void reply(int brdNo) {
-		boolean run = true;
-		while(run) {
-			System.out.println("1.댓글달기 2. 수정, 3.삭제 9.종료");
-			System.out.println("선택 >> ");
-			int menu = scn.nextInt();
-			scn.nextLine();
-			
-			switch(menu) {
-				case 1 :
-					String msg = printString("댓글입력 ");
-					Reply reply = new Reply(brdNo, msg, logId);
-					rservice.add(reply);
-					System.out.println("등록완료!!");
-					break;
-				case 2 :
-					String replyNo	= printString("번호입력");
-					String userNm 	= rservice.getResponseUser(Integer.parseInt(replyNo), brdNo);
-					if( userNm.equals(logId) ) {
-						String content	= printString("내용입력");
-						
-						Reply rep = new Reply();
-						rep.setReplyNo(Integer.parseInt(replyNo));
-						rep.setReplyContent(content);
-						rep.setBrdNo(brdNo);
-						
-						if( rservice.modify(rep) ) {
-							System.out.println("정상 수정 되었습니다.");
-						} else {
-							System.out.println("수정 실패");
-						}
-					} else {
-						System.out.println("권한이 없습니다.");
-					}
-					break;
-				case 3 :
-					replyNo	= printString("번호입력");
-					userNm 	= rservice.getResponseUser(Integer.parseInt(replyNo), brdNo);
-					if( userNm.equals(logId) ) {
-						if( rservice.remove(Integer.parseInt(replyNo), brdNo) ) {
-							System.out.println("정상 삭제 되었습니다.");
-						}
-					} else {
-						System.out.println("권한이 없습니다.");
-					}
-					break;
-				case 9 :
-					System.out.println("댓글 종료.");
-					run = false;
-					break;
-				default :
-					System.out.println("잘못 입력하셨습니다.");
-					break;
-			}
-		}
-		
-	}
+//	void printReply(int brdNo) {
+//		int page = 1;
+//		while(true) {
+//			List<Reply> list = rservice.list(page, brdNo);
+//			if( list != null ) {
+//				for( Reply b : list ) {
+//					System.out.println(b.toString());
+//				}
+//			}	
+//			// 4 > 1page, 9 > 2page, 19 > 4page
+//			int totalCnt = rservice.getTotal();
+//			int lastPage = (int) Math.ceil(totalCnt / 5.0);
+//			String p = "";
+//			for( int i = 1; i <= lastPage; i++ ) {
+//				//System.out.printf("%3d", i);
+//				if( page == i ) {
+//					p += "[" + i + "]" + "  ";
+//				} else {
+//					p += i + "  ";
+//				}
+//			}
+//			System.out.print(p);
+//			System.out.println();
+//			System.out.print("조회할 페이지를 입력(exit : 0) >>");
+//			
+//			page = scn.nextInt();
+//			
+//			if( page == 0) {
+//				break;
+//			}
+//			
+//		}
+//	}
+//	
+//	void reply(int brdNo) {
+//		boolean run = true;
+//		while(run) {
+//			System.out.println("1.댓글달기 2. 수정, 3.삭제 9.종료");
+//			System.out.println("선택 >> ");
+//			int menu = scn.nextInt();
+//			scn.nextLine();
+//			
+//			switch(menu) {
+//				case 1 :
+//					String msg = printString("댓글입력 ");
+//					Reply reply = new Reply(brdNo, msg, logId);
+//					rservice.add(reply);
+//					System.out.println("등록완료!!");
+//					break;
+//				case 2 :
+//					String replyNo	= printString("번호입력");
+//					String userNm 	= rservice.getResponseUser(Integer.parseInt(replyNo), brdNo);
+//					if( userNm.equals(logId) ) {
+//						String content	= printString("내용입력");
+//						
+//						Reply rep = new Reply();
+//						rep.setReplyNo(Integer.parseInt(replyNo));
+//						rep.setReplyContent(content);
+//						rep.setBrdNo(brdNo);
+//						
+//						if( rservice.modify(rep) ) {
+//							System.out.println("정상 수정 되었습니다.");
+//						} else {
+//							System.out.println("수정 실패");
+//						}
+//					} else {
+//						System.out.println("권한이 없습니다.");
+//					}
+//					break;
+//				case 3 :
+//					replyNo	= printString("번호입력");
+//					userNm 	= rservice.getResponseUser(Integer.parseInt(replyNo), brdNo);
+//					if( userNm.equals(logId) ) {
+//						if( rservice.remove(Integer.parseInt(replyNo), brdNo) ) {
+//							System.out.println("정상 삭제 되었습니다.");
+//						}
+//					} else {
+//						System.out.println("권한이 없습니다.");
+//					}
+//					break;
+//				case 9 :
+//					System.out.println("댓글 종료.");
+//					run = false;
+//					break;
+//				default :
+//					System.out.println("잘못 입력하셨습니다.");
+//					break;
+//			}
+//		}
+//		
+//	}
 	
 	//원본 글에 대한 댓글번호, 원번글번호, 내용, 작성자
 	class ReplyApp{
@@ -277,6 +287,7 @@ public class BoardApp {
 		void start() {
 			boolean run = true;
 			while(run) {
+				replyList();
 				System.out.println("1.댓글달기 2. 수정, 3.삭제 9.종료");
 				System.out.println("선택 >> ");
 				int menu = scn.nextInt();
@@ -304,7 +315,39 @@ public class BoardApp {
 			}
 		}
 		
-		
+		void replyList() {
+			int page = 1;
+			while(true) {
+				List<Reply> list = rservice.list(page, brdNo);
+				if( list != null ) {
+					for( Reply b : list ) {
+						System.out.println(b.toString());
+					}
+				}	
+				// 4 > 1page, 9 > 2page, 19 > 4page
+				int totalCnt = rservice.getTotal();
+				int lastPage = (int) Math.ceil(totalCnt / 5.0);
+				String p = "";
+				for( int i = 1; i <= lastPage; i++ ) {
+					//System.out.printf("%3d", i);
+					if( page == i ) {
+						p += "[" + i + "]" + "  ";
+					} else {
+						p += i + "  ";
+					}
+				}
+				System.out.print(p);
+				System.out.println();
+				System.out.print("조회할 페이지를 입력(exit : 0) >>");
+				
+				page = scn.nextInt();
+				
+				if( page == 0) {
+					break;
+				}
+				
+			}
+		}
 		
 		void add() {
 			String msg = printString("댓글입력 ");

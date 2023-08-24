@@ -1,9 +1,12 @@
-package co.yedam.board;
+package co.yedam.board.service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import co.yedam.board.common.Dao;
+import co.yedam.board.vo.User;
 
 public class UserServiceJdbc implements UserService {
 	

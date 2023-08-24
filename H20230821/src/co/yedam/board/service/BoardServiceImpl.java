@@ -1,4 +1,4 @@
-package co.yedam.board;
+package co.yedam.board.service;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,6 +9,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import co.yedam.board.vo.Board;
 
 public class BoardServiceImpl implements BoardService{
 	

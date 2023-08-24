@@ -1,4 +1,4 @@
-package co.yedam.board;
+package co.yedam.board.service;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import co.yedam.board.vo.User;
 
 public class UserServiceImpl implements UserService{
 	// users.txt 에서 정보를 읽고 User 정보를 List 컬랙션에 저장.
