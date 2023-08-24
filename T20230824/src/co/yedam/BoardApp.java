@@ -18,6 +18,7 @@ public class BoardApp {
 	BoardApp(){
 		init();
 	}
+	
 	//파일 읽어오기
 	public void init() {
 		try {
